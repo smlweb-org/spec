@@ -8,7 +8,7 @@ This repository is the canonical home of the standard.
 
 ## Contents
 
-- [`spec.md`](spec.md) — **S—ML Web Profile 0.1** (draft): the normative text. Profile identifiers, discovery, negotiation, Sparse requirements, budgets, content equivalence, hydration, conformance, security & privacy.
+- [`spec.md`](spec.md) — **S—ML Web Profile 0.4** (draft): the normative text. Profile identifiers, discovery, negotiation, Sparse requirements, budgets, content equivalence, hydration, conformance, security & privacy.
 - [`paper.md`](paper.md) — the position paper: full rationale, hydration model, AI consumption, sector cases (satellite/NTN, aviation, roaming), sustainability, and the human argument.
 - [`GOVERNANCE.md`](GOVERNANCE.md) — how the spec evolves and where it is headed.
 - [`CONTRIBUTING.md`](CONTRIBUTING.md) — how to propose changes, report pilots, and disagree productively.
@@ -17,15 +17,17 @@ Website: **https://smlweb.org** · Auditor: [smlweb-org/sml-audit](https://githu
 
 ## The contract in one table
 
-| Requirement | s | m | l |
+| Requirement | s (normative) | m (recommended) | l |
 |---|---|---|---|
-| Initial payload (HTML + render-blocking subresources) | ≤ 50 KB | ≤ 500 KB | open |
+| Initial payload (HTML + render-blocking subresources) | ≤ 50 KB | ≤ 1 MB | open |
 | Core content without JavaScript | MUST | SHOULD | MAY |
-| Third-party scripts | MUST NOT | ≤ 5 hosts | open |
+| Third-party scripts | MUST NOT | keep few | open |
 | Custom fonts | SHOULD NOT | MAY | MAY |
 | Round trips before core content | ≤ 2 | ≤ 5 | open |
 | Machine-readable summary | MUST | SHOULD | SHOULD |
 | End-to-end TLS | MUST | MUST | MUST |
+
+Only `s` budgets are normative — the standard's center of gravity. `m` values are recommendations; `l` is unconstrained. Content equivalence and TLS bind every profile.
 
 ## Participate
 

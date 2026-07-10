@@ -1,6 +1,6 @@
 # S—ML Web: Responsive Delivery Profiles for the Open Web
 
-*Draft 0.2 — July 2026*
+*Draft 0.4 — July 2026*
 
 ---
 
@@ -216,17 +216,19 @@ The exact syntax should evolve through prototypes and standards discussion. The 
 
 ## 8. Conformance and Budgets
 
-S—ML must be measurable. A page must not claim Sparse support while shipping a large application that hides content until hydration completes. A proposed early budget model:
+S—ML must be measurable. A page must not claim Sparse support while shipping a large application that hides content until hydration completes. A proposed budget model — normative for Sparse, advisory beyond it:
 
-| Requirement | S | M | L |
+| Requirement | S (normative) | M (recommended) | L |
 |---|---|---|---|
-| Initial payload | ≤ 50 KB | ≤ 500 KB | Open |
+| Initial payload | ≤ 50 KB | ≤ 1 MB | Open |
 | Core content without JS | Required | Recommended | Optional |
-| Third-party scripts | None by default | Limited | Allowed |
+| Third-party scripts | None by default | Kept few | Open |
 | Custom fonts | Avoid | Optional | Allowed |
 | Required round trips | ≤ 2 | ≤ 5 | Open |
 | Machine-readable summary | Required | Recommended | Recommended |
 | End-to-end TLS | Required | Required | Required |
+
+Only the S column is a conformance gate. Medium's values are recommendations — the standard has no interest in policing the everyday web, only in guaranteeing its Sparse floor. Luxe is unconstrained by design: the immersive web should be as heavy as it wants to be. The only rules that follow a page all the way up are content equivalence and end-to-end TLS.
 
 A clarification on the JavaScript row, because it is the most debated: the rule measures **dependency, not presence**. Scripts are permitted in every profile and simply count against the payload budget — which weights them automatically, and rewards tree-shaken, profile-gated bundles. What Sparse requires is that core content and critical actions survive with scripting *unavailable*, because for many Sparse readers — e-ink browsers, crawlers, agents, embedded clients — JavaScript is not slow; it is absent. A pure weight limit on scripts would not protect those readers; the dependency rule does, and the byte budget handles the weight.
 
@@ -306,7 +308,7 @@ S—ML **is**: a delivery-profile standard, a publishing discipline, a conforman
 
 S—ML is a community specification and tooling effort, useful with today's web from day one — no browser changes required.
 
-**Available now:** S—ML Web Profile 0.1, the draft specification, published as a standalone document (see Normative Specification below); `sml-audit`, an open-source, zero-dependency conformance CLI with CI-friendly output; and the project site — which itself conforms to the Sparse profile it describes.
+**Available now:** S—ML Web Profile 0.4, the draft specification, published as a standalone document (see Normative Specification below); `sml-audit`, an open-source, zero-dependency conformance CLI with CI-friendly output; and the project site — which itself conforms to the Sparse profile it describes.
 
 **On the roadmap:** a reference demonstration of one URL rendered in all three profiles, including hydration across a degrading link; CI recipes and a GitHub Action; adapters and examples for content-first frameworks; conformance badges; and, as independent implementations appear, a W3C Community Group to carry the specification forward.
 
@@ -319,7 +321,7 @@ The premise anyone can act on today, no coordination required: **the critical pa
 ### 13.1 Resolved for 0.1
 
 1. **Naming.** The profiles are **Sparse**, **Medium**, and **Luxe** — one name per profile, used identically in prose, marketing, and spec text. No split between a technical term and a public term; the split itself would be a source of confusion. "Mobile" may be used informally to describe the Medium profile's typical context, but the profile's name is Medium.
-2. **Budgets.** The default Sparse budget is 50 KB initial payload, expressed as the budget class `S-50`. Declared classes allow finer contracts where one threshold is too coarse: `S-14` (fits within a typical first TCP/QUIC congestion window — one round trip, content on screen), `S-50`, `S-100`, and `M-500`, `M-1000`. A page declares its class; the auditor holds it to it.
+2. **Budgets.** Normative budgets apply to Sparse only. The default is 50 KB initial payload, expressed as the budget class `S-50`, with declared classes for finer contracts: `S-14` (fits within a typical first TCP/QUIC congestion window — one round trip, content on screen), `S-50`, `S-100`. Medium's values are recommendations (≤ 1 MB guidance); a publisher may opt in to a binding `M-500` or `M-1000` class, but absent that declaration, tooling treats Medium deviations as advisories, never failures. Luxe carries no budget at all. A page declares its class; the auditor holds it to it.
 3. **JavaScript in Sparse.** Core content and critical actions must never *require* JavaScript. JavaScript itself is not banned: scripts are welcome within the byte budget, which in practice rewards tree-shaken, minimal, profile-gated bundles. The constraint is dependency, not presence.
 4. **Negotiation privacy.** `Accept-Profile` is a single low-entropy header with three possible values, set by explicit user or user-agent preference, with no vendor extensions permitted. Servers must not infer profiles from fingerprinting-adjacent signals. This follows the precedent set by `Save-Data`.
 5. **Machine-readable layer.** JSON-LD, complementing (not replacing) the meta description. It is already understood by crawlers, validators, and AI systems; inventing a parallel format would repeat the mistake this standard exists to avoid.
@@ -350,6 +352,6 @@ That is S—ML.
 
 ## Normative Specification
 
-The normative text of this proposal — **S—ML Web Profile 0.1 (Draft)** — is maintained as a standalone document so it can version independently of this paper. It defines the profile identifiers, discovery, negotiation rules, the Sparse representation's requirements, budgets and budget classes, content equivalence, hydration rules, conformance, and security and privacy considerations.
+The normative text of this proposal — **S—ML Web Profile 0.4 (Draft)** — is maintained as a standalone document so it can version independently of this paper. It defines the profile identifiers, discovery, negotiation rules, the Sparse representation's requirements, budgets and budget classes, content equivalence, hydration rules, conformance, and security and privacy considerations.
 
 Read it at **https://smlweb.org/spec** (raw Markdown: [`/spec.md`](https://smlweb.org/spec.md)).
